@@ -1,18 +1,24 @@
-lockfileVersion: '6.0'
+lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-devDependencies:
-  mkdirp:
-    specifier: ^3.0.1
-    version: 3.0.1
+importers:
+
+  .:
+    devDependencies:
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
 
 packages:
 
-  /mkdirp@3.0.1:
+  mkdirp@3.0.1:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
     hasBin: true
-    dev: true
+
+snapshots:
+
+  mkdirp@3.0.1: {}

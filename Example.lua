@@ -1,4 +1,4 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/zynix-o87f/Fluent/refs/heads/master/dist/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
@@ -40,6 +40,7 @@ do
     Tabs.Main:AddButton({
         Title = "Button",
         Description = "Very important button",
+        Tooltip = "Opens a confirmation dialog",
         Callback = function()
             Window:Dialog({
                 Title = "Title",
@@ -64,7 +65,7 @@ do
 
 
 
-    local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false })
+    local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false, Tooltip = "Toggles the feature on or off" })
 
     Toggle:OnChanged(function()
         print("Toggle changed:", Options.MyToggle.Value)
@@ -77,6 +78,7 @@ do
     local Slider = Tabs.Main:AddSlider("Slider", {
         Title = "Slider",
         Description = "This is a slider",
+        Tooltip = "Drag to adjust the value",
         Default = 2,
         Min = 0,
         Max = 5,
@@ -164,6 +166,7 @@ do
 
     local Keybind = Tabs.Main:AddKeybind("Keybind", {
         Title = "KeyBind",
+        Tooltip = "Click to rebind, supports mouse buttons",
         Mode = "Toggle", -- Always, Toggle, Hold
         Default = "LeftControl", -- String as the name of the keybind (MB1, MB2 for mouse buttons)
 

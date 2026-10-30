@@ -1,3 +1,7 @@
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
 local Root = script.Parent
 local Themes = require(Root.Themes)
 local Flipper = require(Root.Packages.Flipper)
@@ -6,6 +10,8 @@ local Creator = {
 	Registry = {},
 	Signals = {},
 	TransparencyMotors = {},
+	TooltipHolder = nil,
+	TooltipLabel = nil,
 	DefaultProperties = {
 		ScreenGui = {
 			ResetOnSpawn = false,
@@ -143,6 +149,88 @@ function Creator.New(Name, Properties, Children)
 
 	ApplyCustomProps(Object, Properties)
 	return Object
+end
+
+function Creator.SetupTooltip(ScreenGui)
+	local TooltipLabel = Creator.New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
+		TextSize = 12,
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextWrapped = true,
+		AutomaticSize = Enum.AutomaticSize.XY,
+		BackgroundTransparency = 0,
+		BackgroundColor3 = Color3.fromRGB(30, 30, 30),
+		TextXAlignment = Enum.TextXAlignment.Left,
+		ThemeTag = {
+			TextColor3 = "Text",
+			BackgroundColor3 = "DropdownHolder",
+		},
+	}, {
+		Creator.New("UICorner", {
+			CornerRadius = UDim.new(0, 5),
+		}),
+		Creator.New("UIPadding", {
+			PaddingTop = UDim.new(0, 6),
+			PaddingBottom = UDim.new(0, 6),
+			PaddingLeft = UDim.new(0, 8),
+			PaddingRight = UDim.new(0, 8),
+		}),
+		Creator.New("UIStroke", {
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			Transparency = 0.5,
+			ThemeTag = {
+				Color = "ElementBorder",
+			},
+		}),
+	})
+
+	local TooltipHolder = Creator.New("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromOffset(0, 0),
+		AutomaticSize = Enum.AutomaticSize.XY,
+		Parent = ScreenGui,
+		Visible = false,
+		ZIndex = 1000,
+	}, {
+		Creator.New("UISizeConstraint", {
+			MaxSize = Vector2.new(250, math.huge),
+		}),
+		TooltipLabel,
+	})
+
+	Creator.TooltipHolder = TooltipHolder
+	Creator.TooltipLabel = TooltipLabel
+
+	local Mouse = Players.LocalPlayer:GetMouse()
+	RunService.RenderStepped:Connect(function()
+		if TooltipHolder.Visible then
+			local mouseX = Mouse.X + 12
+			local mouseY = Mouse.Y + 12
+			local viewportSize = workspace.CurrentCamera.ViewportSize
+
+			if mouseX + TooltipHolder.AbsoluteSize.X > viewportSize.X then
+				mouseX = Mouse.X - TooltipHolder.AbsoluteSize.X - 4
+			end
+			if mouseY + TooltipHolder.AbsoluteSize.Y > viewportSize.Y then
+				mouseY = Mouse.Y - TooltipHolder.AbsoluteSize.Y - 4
+			end
+
+			TooltipHolder.Position = UDim2.fromOffset(mouseX, mouseY)
+		end
+	end)
+end
+
+function Creator.ShowTooltip(Text)
+	if Creator.TooltipHolder and Text and Text ~= "" then
+		Creator.TooltipLabel.Text = Text
+		Creator.TooltipHolder.Visible = true
+	end
+end
+
+function Creator.HideTooltip()
+	if Creator.TooltipHolder then
+		Creator.TooltipHolder.Visible = false
+	end
 end
 
 function Creator.SpringMotor(Initial, Instance, Prop, IgnoreDialogCheck, ResetOnThemeChange)

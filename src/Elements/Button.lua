@@ -12,7 +12,7 @@ function Element:New(Config)
 	assert(Config.Title, "Button - Missing Title")
 	Config.Callback = Config.Callback or function() end
 
-	local ButtonFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
+	local ButtonFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true, Config.Tooltip)
 
 	local ButtonIco = New("ImageLabel", {
 		Image = "rbxassetid://10709791437",

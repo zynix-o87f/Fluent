@@ -27,11 +27,12 @@ function Element:New(Idx, Config)
 		Callback = Config.Callback or function() end,
 	}
 
-	local DropdownFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false)
+	local DropdownFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false, Config.Tooltip)
 	DropdownFrame.DescLabel.Size = UDim2.new(1, -170, 0, 14)
 
 	Dropdown.SetTitle = DropdownFrame.SetTitle
 	Dropdown.SetDesc = DropdownFrame.SetDesc
+	Dropdown.SetTooltip = DropdownFrame.SetTooltip
 
 	local DropdownDisplay = New("TextLabel", {
 		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),

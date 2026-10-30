@@ -132,6 +132,7 @@ function Library:CreateWindow(Config)
 
 	Library.Window = Window
 	Library:SetTheme(Config.Theme)
+	Creator.SetupTooltip(GUI)
 
 	return Window
 end

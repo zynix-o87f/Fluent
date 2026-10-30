@@ -5,7 +5,7 @@ local New = Creator.New
 
 local Spring = Flipper.Spring.new
 
-return function(Title, Desc, Parent, Hover)
+return function(Title, Desc, Parent, Hover, Tooltip)
 	local Element = {}
 
 	Element.TitleLabel = New("TextLabel", {
@@ -131,6 +131,19 @@ return function(Title, Desc, Parent, Hover)
 		Creator.AddSignal(Element.Frame.MouseButton1Up, function()
 			SetTransparency(Creator.GetThemeProperty("ElementTransparency") - Creator.GetThemeProperty("HoverChange"))
 		end)
+	end
+
+	Creator.AddSignal(Element.Frame.MouseEnter, function()
+		if Tooltip and Tooltip ~= "" then
+			Creator.ShowTooltip(Tooltip)
+		end
+	end)
+	Creator.AddSignal(Element.Frame.MouseLeave, function()
+		Creator.HideTooltip()
+	end)
+
+	function Element:SetTooltip(Text)
+		Tooltip = Text
 	end
 
 	return Element
